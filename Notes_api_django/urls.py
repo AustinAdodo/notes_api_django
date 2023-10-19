@@ -16,6 +16,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls import path, include
+from rest_framework.urlpatterns import format_suffix_patterns
+import views
+
+urlpatterns = [
+    path("notes/", views.NoteList.as_view()),
+    path("notes/<int:pk>/", views.NoteDetail.as_view()),
+    path("users/", views.UserList.as_view()),
+    path("users/<int:pk>/", views.UserDetail.as_view()),
+
+    path("login/", views.login_view, name="api-login"),
+    path("logout/", views.logout_view, name="api-logout"),
+    path("register/", views.register_view, name="api-register"),
+    path("whoami/", views.WhoAmIView.as_view(), name="api-whoami"),
+]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
+urlpatterns += [
+    path("api-auth/", include("rest_framework.urls")),
+]
 
 urlpatterns = [
     path('admin/', admin.site.urls),
