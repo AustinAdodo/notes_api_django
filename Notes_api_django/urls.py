@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import path, include
 from rest_framework.urlpatterns import format_suffix_patterns
-import views
+from Notes_api_django import views
 
 urlpatterns = [
     path("notes/", views.NoteList.as_view()),

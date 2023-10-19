@@ -9,9 +9,9 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.utils import json
 from rest_framework.views import APIView
-from models import Note
-from serializers import NoteSerializer, UserSerializer
-from permissions import IsOwnerOrReadOnly
+from Notes_api_django.models import Note
+from Notes_api_django.serializers import NoteSerializer, UserSerializer
+from Notes_api_django.permissions import IsOwnerOrReadOnly
 
 
 # Updated NoteList class with pagination support

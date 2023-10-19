@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Notes_api_django',  # Add your app name here
+
 ]
 
 MIDDLEWARE = [
