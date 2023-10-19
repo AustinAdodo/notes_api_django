@@ -89,11 +89,6 @@ DATABASES['default']['TEST'] = {
     'NAME': ':memory:',
 }
 
-# Configuration for the testing database
-DATABASES['default']['TEST'] = {
-    'NAME': ':memory:',
-}
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
