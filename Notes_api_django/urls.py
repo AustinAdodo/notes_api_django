@@ -35,8 +35,9 @@ urlpatterns = [
 urlpatterns = format_suffix_patterns(urlpatterns)
 urlpatterns += [
     path("api-auth/", include("rest_framework.urls")),
-]
-
-urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+# ]
