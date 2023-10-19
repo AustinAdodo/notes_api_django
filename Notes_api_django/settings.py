@@ -84,10 +84,10 @@ DATABASES = {
 }
 
 # Configuration for the testing database
+# ':memory:' specifies that an in-memory database for testing.
 DATABASES['default']['TEST'] = {
     'NAME': ':memory:',
 }
-
 
 # Configuration for the testing database
 DATABASES['default']['TEST'] = {
