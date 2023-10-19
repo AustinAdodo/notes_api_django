@@ -11,3 +11,5 @@ class Note(models.Model):
     class Meta:
         ordering = "created",
         # db_table = "custom_table_name"  # Specify your custom table name here
+
+# using = "tests"  # Specify the database alias to use here
