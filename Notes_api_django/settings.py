@@ -44,6 +44,16 @@ INSTALLED_APPS = [
 
 ]
 
+# Swagger Settings
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic',
+        },
+    },
+    'USE_SESSION_AUTH': False,  # Set to True if using session authentication
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
