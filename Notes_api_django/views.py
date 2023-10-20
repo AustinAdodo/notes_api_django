@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from rest_framework.pagination import PageNumberPagination
 from django.contrib.auth.models import User
 from django.db.utils import IntegrityError
 from django.http import JsonResponse
@@ -20,15 +21,21 @@ from Notes_api_django.permissions import IsOwnerOrReadOnly
 class NoteList(generics.ListCreateAPIView):
     serializer_class = NoteSerializer
     permission_classes = IsAuthenticated,
+    pagination_class = PageNumberPagination
+
+    # def get_queryset(self):
+    #     page_size = self.request.query_params.get('page_size', 10)  # Default page size is 10
+    #     if page_size <= 0:
+    #         raise ValidationError("Invalid page.")  # rest_framework.exceptions .ValidationError
+    #     return Note.objects.filter(owner=self.request.user)[:page_size]
 
     def get_queryset(self):
-        page_size = self.request.query_params.get('page_size', 10)  # Default page size is 10
-        if page_size <= 0:
-            raise ValidationError("Invalid page.")  # rest_framework.exceptions .ValidationError
-        return Note.objects.filter(owner=self.request.user)[:page_size]
+        return Note.objects.filter(owner=self.request.user)
 
     def get_paginated_results(self, page_number):
         page_size = 10
+        if page_number <= 0:
+            raise ValidationError("Invalid page.")
         offset = (page_number - 1) * page_size
         return Note.objects.filter(owner=self.request.user)[offset:offset + page_size]
 
@@ -45,10 +52,6 @@ class NoteList(generics.ListCreateAPIView):
             return Response(data, status=status.HTTP_200_OK)
         except ValidationError as e:
             return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-    # def get_queryset(self):
-    #     page_number = int(self.request.query_params.get('page', 1))
-    #     return self.get_paginated_results(page_number)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
