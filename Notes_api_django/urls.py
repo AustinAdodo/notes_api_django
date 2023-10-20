@@ -53,7 +53,7 @@ urlpatterns = format_suffix_patterns(urlpatterns)
 urlpatterns += [
     path("api-auth/", include("rest_framework.urls")),
     path('admin/', admin.site.urls),
-    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0),
+    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0),  # regex
             name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0),
          name='schema-swagger-ui'),
