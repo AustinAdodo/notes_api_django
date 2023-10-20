@@ -13,3 +13,6 @@ class Note(models.Model):
         # db_table = "custom_table_name"  # Specify your custom table name here
 
 # using = "tests"  # Specify the database alias to use here
+# Always create migrations for existing model using the below.
+# python manage.py makemigrations
+# python manage.py migrate
