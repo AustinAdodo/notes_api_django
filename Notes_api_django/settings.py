@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Notes_api_django',  # Add your app name here
+    'drf_yasg',  # app for swagger
 
 ]
 

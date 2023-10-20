@@ -19,6 +19,21 @@ from django.urls import path
 from django.urls import path, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from Notes_api_django import views
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Your API",
+        default_version='v1',
+        description="API Description",
+        terms_of_service="https://www.yourapp.com/terms/",
+        contact=openapi.Contact(email="contact@yourapp.com"),
+        license=openapi.License(name="Your License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 
 urlpatterns = [
     path("notes/", views.NoteList.as_view()),  # Defines the GET /notes/ endpoint
@@ -36,6 +51,10 @@ urlpatterns = format_suffix_patterns(urlpatterns)
 urlpatterns += [
     path("api-auth/", include("rest_framework.urls")),
     path('admin/', admin.site.urls),
+re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0),
+            name='schema-json'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0),
+         name='schema-swagger-ui'),
 ]
 
 # urlpatterns = [
