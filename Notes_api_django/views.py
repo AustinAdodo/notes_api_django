@@ -4,9 +4,11 @@ from django.db.utils import IntegrityError
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
 from django.views.decorators.http import require_POST
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.utils import json
 from rest_framework.views import APIView
 from Notes_api_django.models import Note
@@ -19,14 +21,34 @@ class NoteList(generics.ListCreateAPIView):
     serializer_class = NoteSerializer
     permission_classes = IsAuthenticated,
 
+    def get_queryset(self):
+        page_size = self.request.query_params.get('page_size', 10)  # Default page size is 10
+        if page_size <= 0:
+            raise ValidationError("Invalid page.")  # rest_framework.exceptions .ValidationError
+        return Note.objects.filter(owner=self.request.user)[:page_size]
+
     def get_paginated_results(self, page_number):
         page_size = 10
         offset = (page_number - 1) * page_size
         return Note.objects.filter(owner=self.request.user)[offset:offset + page_size]
 
-    def get_queryset(self):
-        page_number = int(self.request.query_params.get('page', 1))
-        return self.get_paginated_results(page_number)
+    def list(self, request, *args, **kwargs):
+        try:
+            queryset = self.get_queryset()
+            serializer = NoteSerializer(queryset, many=True)
+            data = {
+                'count': Note.objects.filter(owner=self.request.user).count(),
+                'next': None,
+                'previous': None,
+                'results': serializer.data
+            }
+            return Response(data, status=status.HTTP_200_OK)
+        except ValidationError as e:
+            return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    # def get_queryset(self):
+    #     page_number = int(self.request.query_params.get('page', 1))
+    #     return self.get_paginated_results(page_number)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
