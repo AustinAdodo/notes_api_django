@@ -22,6 +22,7 @@ class NoteList(generics.ListCreateAPIView):
     serializer_class = NoteSerializer
     permission_classes = IsAuthenticated,
     pagination_class = PageNumberPagination
+
     # def get_queryset(self):
     #     page_size = self.request.query_params.get('page_size', 10)  # Default page size is 10
     #     if page_size <= 0:
@@ -39,13 +40,25 @@ class NoteList(generics.ListCreateAPIView):
         return Note.objects.filter(owner=self.request.user)[offset:offset + page_size]
 
     def list(self, request, *args, **kwargs):
+        # Get the current page number from the query parameters
+        page_number = request.query_params.get('page')
+        if page_number and page_number.isdigit():
+            page_number = int(page_number)
+        else:
+            page_number = 1
+        page_size = Note.objects.filter(owner=self.request.user).count()  # self.pagination_class.page_size
+        # current_offset = (page_number - 1) * page_size  # offset
         try:
-            queryset = self.get_queryset()
-            serializer = NoteSerializer(queryset, many=True)
+            # Get a paginated queryset page.paginator.count
+            queryset = Note.objects.filter(owner=request.user)
+            paginator = self.pagination_class()
+            page = paginator.paginate_queryset(queryset, request)
+            serializer = NoteSerializer(page, many=True)
+            next_page = f"http://testserver/notes/?page={page_number + 1}"
             data = {
                 'count': Note.objects.filter(owner=self.request.user).count(),
-                'next': None,
-                'previous': None,
+                'next': next_page if page_number > 0 and page_size >= 10 else None,
+                'previous': page_number - 1 if page_number > 1 else None,
                 'results': serializer.data
             }
             return Response(data, status=status.HTTP_200_OK)

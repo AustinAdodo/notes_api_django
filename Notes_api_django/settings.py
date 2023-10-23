@@ -41,8 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Notes_api_django',  # app name
     'drf_yasg',  # app for swagger
-
+    'rest_framework.pagination',  # pagination
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,  # Set the number of items per page here
+}
 
 # Swagger Settings
 SWAGGER_SETTINGS = {

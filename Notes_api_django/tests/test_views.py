@@ -2,10 +2,17 @@ import json
 from django.contrib.auth.models import User
 from django.test import TestCase
 
+from Notes_api_django.models import Note
+
 TestCase.maxDiff = None
 
 
 class NoteViewTests(TestCase):
+    # internal
+    def setUp(self):
+        # Delete all rows in the 'Notes_api_django_note' table
+        Note.objects.all().delete()
+
     def test_post_notes(self):
         """POST /notes/"""
         user = User.objects.create(username="foo")
@@ -23,6 +30,7 @@ class NoteViewTests(TestCase):
 
     def test_get_notes(self):
         """GET /notes/"""
+        count = count = Note.objects.count()
         user = User.objects.create(username="foo")
         self.client.force_login(user)
         payload = {"title": "aa", "text": "bb"}
@@ -49,10 +57,12 @@ class NoteViewTests(TestCase):
             ]
         }
         response = self.client.get("/notes/")
+        result = response.content
         self.assertJSONEqual(response.content, expected)
 
     def test_pagination_size(self):
         """pagination size"""
+        count = count = Note.objects.count()
         page_size = 10
         user = User.objects.create(username="foo")
         self.client.force_login(user)
@@ -78,6 +88,7 @@ class NoteViewTests(TestCase):
             "results": results[:page_size],
         }
         response = self.client.get("/notes/")
+        result = response.content
         self.assertJSONEqual(response.content, expected)
 
     def test_pagination_invalid_page(self):
