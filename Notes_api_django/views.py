@@ -22,7 +22,6 @@ class NoteList(generics.ListCreateAPIView):
     serializer_class = NoteSerializer
     permission_classes = IsAuthenticated,
     pagination_class = PageNumberPagination
-
     # def get_queryset(self):
     #     page_size = self.request.query_params.get('page_size', 10)  # Default page size is 10
     #     if page_size <= 0:
