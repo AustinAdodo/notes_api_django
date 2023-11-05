@@ -128,7 +128,6 @@ def login_view(request):
 def logout_view(request):
     if not request.user.is_authenticated:
         return JsonResponse({"message": "not logged in"}, status=401)
-
     logout(request)
     return JsonResponse({"message": "logged out"})
 
