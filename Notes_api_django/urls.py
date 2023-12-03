@@ -20,10 +20,10 @@ from django.urls import path, include
 from rest_framework import permissions
 from rest_framework.urlpatterns import format_suffix_patterns
 from Notes_api_django import views
-from drf_yasg.views import get_schema_view
+from drf_yasg.views import get_schema_view  # pip install drf-yasg
 from drf_yasg import openapi
 
-# Customize the Swagger schema in get_schema_view()
+# Customizing the Swagger schema in get_schema_view() is important
 schema_view = get_schema_view(
     openapi.Info(
         title="Notes_REST_API_Django",

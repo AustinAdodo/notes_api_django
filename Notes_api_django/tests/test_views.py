@@ -67,7 +67,6 @@ class NoteViewTests(TestCase):
         user = User.objects.create(username="foo")
         self.client.force_login(user)
         results = []
-
         for i in range(1, page_size + 2):
             payload = {"title": f"aa_{i}", "text": f"bb_{i}"}
             response = self.client.post("/notes/", payload, format="json")
@@ -80,7 +79,6 @@ class NoteViewTests(TestCase):
             }
             self.assertJSONEqual(response.content, expected)
             results.append(expected)
-
         expected = {
             "count": page_size + 1,
             "next": "http://testserver/notes/?page=2",

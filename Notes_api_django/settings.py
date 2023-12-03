@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 
-# Construct the absolute path to the SQLite database
 database_path = os.path.abspath(os.path.join('..', 'Documents', 'Sqlitedata', 'your_database_name.db'))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
