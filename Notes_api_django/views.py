@@ -30,6 +30,10 @@ class NoteList(generics.ListCreateAPIView):
     #     return Note.objects.filter(owner=self.request.user)[:page_size]
 
     def get_queryset(self):
+        """
+        specifies query structure for incoming requests.
+        :return: Query Set Object
+        """
         return Note.objects.filter(owner=self.request.user)
 
     def get_paginated_results(self, page_number):
