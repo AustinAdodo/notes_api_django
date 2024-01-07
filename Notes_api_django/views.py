@@ -37,6 +37,10 @@ class NoteList(generics.ListCreateAPIView):
         return Note.objects.filter(owner=self.request.user)
 
     def get_paginated_results(self, page_number):
+        """
+            provide paginated results.
+            :return: Note Objects
+            """
         page_size = 10
         if page_number <= 0:
             raise ValidationError("Invalid page.")
