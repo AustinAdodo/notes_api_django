@@ -95,10 +95,10 @@ class UserDetail(generics.RetrieveAPIView):
 
 @require_POST
 def register_view(request):
-    data = json.loads(request.body)  # from rest_framework.utils import json
+    # from rest_framework.utils import json
+    data = json.loads(request.body)
     username = data.get("username")
     password = data.get("password")
-
     if not username:
         return JsonResponse({"message": "no username provided"}, status=422)
     elif not password:
