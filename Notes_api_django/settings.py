@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Notes_api_django',  # app name
-    'drf_yasg',  # app for swagger
+    # 'drf_yasg',  # app for swagger
     'rest_framework.pagination',  # pagination
 ]
 
