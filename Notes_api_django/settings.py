@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 
-database_path = os.path.abspath(os.path.join('..', 'Documents', 'Sqlitedata', 'your_database_name.db'))
+database_path = os.path.abspath(os.path.join('..', 'Documents', 'Sqlite_data', 'sqlite3.db'))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Notes_api_django',  # app name
+    'Notes_api_django',
     # 'drf_yasg',  # app for swagger
     'rest_framework.pagination',  # pagination
 ]
@@ -104,8 +104,8 @@ DATABASES['default']['TEST'] = {
     'NAME': ':memory:',
 }
 
-# DATABASES = {
-#     'default': {
+# DATABASES =
+#  {   'default': {
 #         'ENGINE': 'django.db.backends.mysql',
 #         'NAME': 'your_database_name',
 #         'USER': 'your_database_user',
